@@ -107,6 +107,11 @@ MIT License - Use at your own risk.
 
 *"Keeping vintage Macs secure, one CVE at a time."*
 
+## Community
+
+Join the RustChain Discord:
+
+[![Discord](https://img.shields.io/badge/Discord-RustChain-7289DA?logo=discord&logoColor=white)](https://discord.gg/tQ4q3z4M)
 
 ---
 
