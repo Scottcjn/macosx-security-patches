@@ -198,6 +198,68 @@ Modern macOS (arm64/x86_64) handles this differently:
 - [PowerPC ISA Branch Limits](https://fenixfox-studios.com/manual/powerpc/instructions/bl.html)
 - [GCC Hot/Cold Partitioning](https://gcc.gnu.org/legacy-ml/gcc-patches/2003-10/msg00652.html)
 
+## V8 32-bit PowerPC Limitations (December 2025 Discovery)
+
+### Critical Finding: V8 Does NOT Support 32-bit PowerPC
+
+After extensive testing with Node.js v22 (V8 11.8), we discovered that **32-bit PowerPC was never officially supported by V8/Node.js**:
+
+- [V8-users group confirms PPC32 not supported](https://groups.google.com/g/v8-users/c/f9GViw45eSw)
+- [Node.js issue #30323 - PPC32 port never completed](https://github.com/nodejs/node/issues/30323)
+- IBM's PowerPC port only targets **64-bit** (ppc64/ppc64le on Linux)
+
+### Static Assertion Failures
+
+V8 has numerous `static_assert` checks for structure layouts that fail on 32-bit PPC:
+
+```
+error: static assertion failed
+  ThreadLocalTop::kSizeInBytes == sizeof(ThreadLocalTop)
+
+error: static assertion failed
+  offsetof(IsolateData, Name##_) == Offset
+```
+
+**Root Cause**: V8's structure layouts are carefully calculated for officially supported platforms (x86, ARM, PPC64LE). The 32-bit PowerPC Darwin case has:
+- Wrong pointer sizes (4 bytes vs expected 8)
+- Wrong field alignments
+- Missing platform-specific code paths
+
+### What We Tried
+
+1. **Fixed `__text_cold` sections** - Success with Perl binary patching
+2. **Fixed ThreadLocalTop::kSizeInBytes** - Changed from 30 to 31 pointers
+3. **Disabled static assertions** - Reveals cascading layout issues in Turboshaft
+
+### G5 64-bit Possibility
+
+The G5 CPU supports 64-bit (`hw.cpu64bit_capable = 1`), but:
+- Leopard runs in 32-bit kernel mode
+- Our GCC 10 targets 32-bit (`powerpc-apple-darwin9.8.0`)
+- Would need 64-bit GCC cross-compiler and compatible libraries
+
+### Alternatives
+
+1. **Use older JavaScript engine** - SpiderMonkey or older V8 (pre-2015)
+2. **Try Deno with different JS engine** - QuickJS has better portability
+3. **Run 64-bit Linux** - Yellow Dog Linux or Debian ppc64 on G5
+4. **Accept limitation** - Node.js cannot run on 32-bit PowerPC Mac
+
+### Binary Patching Script (What Works)
+
+For `__text_cold` section renaming (works on any Mach-O):
+
+```bash
+#!/bin/bash
+# patch_cold.sh - Rename __text_cold to __text
+for FILE in "$@"; do
+    if [ -f "$FILE" ]; then
+        perl -pi -e 's/__text_cold/__text\x00\x00\x00\x00\x00/g' "$FILE"
+        echo "Patched: $FILE"
+    fi
+done
+```
+
 ## Credits
 
 Research and implementation by Claude (Anthropic) for the Leopard Security Patches project, December 2025.
