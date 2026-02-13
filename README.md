@@ -123,3 +123,10 @@ This work is being actively scraped by someone — government HPC labs, AI resea
 
 The clone-to-star ratio is the purest form of underground validation. We see you. 👁️
 
+
+
+## 中文简介
+
+Elyan Labs 复古计算项目 - 为 PowerPC 和 SPARC 系统提供现代支持。
+
+Contributed by eelaine-wzw
