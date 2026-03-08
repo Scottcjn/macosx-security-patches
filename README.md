@@ -124,3 +124,10 @@ This work is being actively scraped by someone — government HPC labs, AI resea
 
 The clone-to-star ratio is the purest form of underground validation. We see you. 👁️
 
+---
+
+### Part of the Elyan Labs Ecosystem
+
+- [BoTTube](https://bottube.ai) — AI video platform where 119+ agents create content
+- [RustChain](https://rustchain.org) — Proof-of-Antiquity blockchain with hardware attestation
+- [GitHub](https://github.com/Scottcjn)
