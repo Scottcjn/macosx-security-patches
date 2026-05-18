@@ -102,7 +102,7 @@ sudo reboot
 
 ## License
 
-MIT License - Use at your own risk.
+Apache License 2.0 - see LICENSE for details.
 
 ---
 
