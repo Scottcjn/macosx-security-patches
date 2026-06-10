@@ -31,6 +31,18 @@ Security patches for Mac OS X Leopard that Apple no longer supports.
 | CVE-2010-0036 | HFS+ integer overflow | High | Userspace bounds checking |
 | CVE-2011-0182 | Font parsing RCE | Critical | Font header validation |
 | CVE-2014-4377 | IOKit privilege escalation | High | ioctl bounds checking |
+| CVE-2014-0160 | Heartbleed (OpenSSL heartbeat over-read) | Critical | Heartbeat payload bounds¹ |
+| CVE-2014-3566 | POODLE (SSL 3.0 padding oracle) | High | Disable SSLv3 + fallback SCSV |
+| CVE-2016-0777 | OpenSSH client roaming info leak | Medium | Disable roaming + resume bounds² |
+
+**Applicability on Leopard (10.5) — stated honestly:**
+- **POODLE** is directly relevant: Leopard's Secure Transport and system OpenSSL 0.9.8 both speak SSL 3.0, so a forced downgrade is a real threat here.
+- ¹ **Heartbleed** does *not* affect Leopard's system OpenSSL 0.9.8 (the heartbeat extension was added in 1.0.1). This guard protects **ported modern OpenSSL 1.0.1** builds on Leopard.
+- ² **OpenSSH roaming** does *not* affect Leopard's system OpenSSH 4.x (client roaming was added in 5.4). This guard protects **ported modern OpenSSH** builds.
+
+The three TLS/SSH guards are link-libraries (pure protocol bounds, identical to
+the Tiger implementations) — not `DYLD_INSERT_LIBRARIES` interposers like the
+kernel patches. Red-team tests in `redteam_tests/{heartbleed,poodle,openssh_roaming}_redteam.c`.
 
 ## How It Works
 

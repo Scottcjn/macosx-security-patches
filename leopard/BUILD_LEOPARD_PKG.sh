@@ -60,7 +60,7 @@ mkdir -p build/patches
 echo ""
 echo "Compiling CVE patches..."
 
-echo "  [1/5] CVE-2008-1447 DNS Port Randomization..."
+echo "  [1/8] CVE-2008-1447 DNS Port Randomization..."
 $CC $CFLAGS $LDFLAGS \
     -o build/patches/dns_randomizer.dylib \
     kernel_patches/CVE-2008-1447-DNS/dns_port_randomizer.c \
@@ -72,7 +72,7 @@ $CC $CFLAGS $LDFLAGS \
 }
 echo "    Built: dns_randomizer.dylib"
 
-echo "  [2/5] CVE-2009-2414 TCP ISN Randomization..."
+echo "  [2/8] CVE-2009-2414 TCP ISN Randomization..."
 $CC $CFLAGS $LDFLAGS \
     -o build/patches/tcp_isn_randomizer.dylib \
     kernel_patches/CVE-2009-2414-TCP/tcp_isn_randomizer.c \
@@ -83,7 +83,7 @@ $CC $CFLAGS $LDFLAGS \
 }
 echo "    Built: tcp_isn_randomizer.dylib"
 
-echo "  [3/5] CVE-2010-0036 HFS+ Overflow Guard..."
+echo "  [3/8] CVE-2010-0036 HFS+ Overflow Guard..."
 $CC $CFLAGS $LDFLAGS \
     -o build/patches/hfs_overflow_guard.dylib \
     kernel_patches/CVE-2010-0036-HFS/hfs_overflow_guard.c \
@@ -94,7 +94,7 @@ $CC $CFLAGS $LDFLAGS \
 }
 echo "    Built: hfs_overflow_guard.dylib"
 
-echo "  [4/5] CVE-2011-0182 Font Parsing Guard..."
+echo "  [4/8] CVE-2011-0182 Font Parsing Guard..."
 $CC $CFLAGS $LDFLAGS \
     -o build/patches/font_parsing_guard.dylib \
     kernel_patches/CVE-2011-0182-Font/font_parsing_guard.c \
@@ -105,7 +105,7 @@ $CC $CFLAGS $LDFLAGS \
 }
 echo "    Built: font_parsing_guard.dylib"
 
-echo "  [5/5] CVE-2014-4377 IOKit Bounds Guard..."
+echo "  [5/8] CVE-2014-4377 IOKit Bounds Guard..."
 $CC $CFLAGS $LDFLAGS \
     -o build/patches/iokit_bounds_guard.dylib \
     kernel_patches/CVE-2014-4377-IOKit/iokit_bounds_guard.c \
@@ -115,6 +115,24 @@ $CC $CFLAGS $LDFLAGS \
         kernel_patches/CVE-2014-4377-IOKit/iokit_bounds_guard.c
 }
 echo "    Built: iokit_bounds_guard.dylib"
+
+echo "  [6/8] CVE-2014-0160 Heartbleed Heartbeat Bounds..."
+$CC $CFLAGS $LDFLAGS \
+    -o build/patches/heartbeat_bounds.dylib \
+    kernel_patches/CVE-2014-0160-Heartbleed/heartbeat_bounds.c
+echo "    Built: heartbeat_bounds.dylib"
+
+echo "  [7/8] CVE-2014-3566 POODLE SSLv3 Protection..."
+$CC $CFLAGS $LDFLAGS \
+    -o build/patches/poodle_protection.dylib \
+    kernel_patches/CVE-2014-3566-POODLE/disable_sslv3.c
+echo "    Built: poodle_protection.dylib"
+
+echo "  [8/8] CVE-2016-0777 OpenSSH Roaming Protection..."
+$CC $CFLAGS $LDFLAGS \
+    -o build/patches/roaming_protection.dylib \
+    kernel_patches/CVE-2016-0777-OpenSSH-Roaming/disable_roaming.c
+echo "    Built: roaming_protection.dylib"
 
 echo ""
 echo "Creating installer package..."
