@@ -70,6 +70,12 @@ cd ../CVE-2014-3566-POODLE
 gcc -dynamiclib -o ../../build/patches/PoodleProtection.dylib \
     disable_sslv3.c
 
+# 9. Build OpenSSH roaming disable / resume bounds (CVE-2016-0777)
+echo "Building OpenSSH roaming protection library..."
+cd ../CVE-2016-0777-OpenSSH-Roaming
+gcc -dynamiclib -o ../../build/patches/RoamingProtection.dylib \
+    disable_roaming.c
+
 echo ""
 echo "✅ Build complete!"
 echo ""
