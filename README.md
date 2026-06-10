@@ -19,7 +19,7 @@ Security patches for legacy Mac OS X versions that Apple no longer supports.
 | Mac OS X 10.3 | Panther | PowerPC | Planned |
 | Mac OS X 10.4 | Tiger | PowerPC | **Active** |
 | Mac OS X 10.5 | Leopard | PowerPC/Intel | Planned |
-| Mac OS X 10.6 | Snow Leopard | Intel | Planned |
+| Mac OS X 10.6 | Snow Leopard | Intel | **Active** |
 
 ## CVEs Addressed
 
