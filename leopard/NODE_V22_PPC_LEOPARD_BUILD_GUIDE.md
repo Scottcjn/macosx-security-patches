@@ -376,14 +376,33 @@ The SMI (Small Integer) layout differs between 32-bit and 64-bit PPC. Add 32-bit
 #if !defined(V8_COMPRESS_POINTERS) && !defined(V8_31BIT_SMIS_ON_64BIT_ARCH) && !(defined(V8_TARGET_ARCH_PPC) && !defined(V8_TARGET_ARCH_PPC64))
 ```
 
+### 15. c-ares clock_gettime Compatibility (Leopard)
+
+**File:** `deps/cares/src/lib/util/ares_timeval.c`
+
+c-ares uses `clock_gettime(CLOCK_MONOTONIC, ...)` which isn't available on Leopard (macOS 10.5).
+The fix undefines `HAVE_CLOCK_GETTIME_MONOTONIC` so it falls back to `gettimeofday`:
+
+```cpp
+// After #include "ares_private.h" (line 27), add:
+
+/* Leopard compatibility: clock_gettime not available until macOS 10.12 */
+#if defined(__APPLE__)
+#include <AvailabilityMacros.h>
+#if !defined(MAC_OS_X_VERSION_10_12) || MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_12
+#undef HAVE_CLOCK_GETTIME_MONOTONIC
+#endif
+#endif
+```
+
 ## Build Command
 
 ```bash
 cd ~/node-ppc/out
-make -j1 V=0
+make -j2 V=0
 ```
 
-Note: Use `-j1` (single thread) to avoid memory exhaustion on older hardware.
+Note: Use `-j2` on G5 Mac (dual CPU, 7GB RAM). Use `-j1` on older hardware with limited RAM.
 
 ## Target
 
@@ -393,23 +412,23 @@ The goal is to build Node.js to run Claude Code on PowerPC Mac OS X Leopard.
 
 **Last Updated:** December 30, 2025
 
-Build in progress on G5 Mac (192.168.0.179). V8 compilation proceeding with all 32-bit PPC patches applied.
+Build in progress on G5 Mac (192.168.0.179) with `-j2`. V8 Torque compiler phase completed, now compiling V8 sources.
 
 **Progress:**
+- V8 Torque compiler: ✅ Completed
 - V8 baseline compiler: ✅ Compiling successfully
-- V8 builtins: ✅ ~42 object files compiled
-- Currently compiling: `builtins-typed-array.cc`
+- V8 builtins: ✅ ~84+ object files compiled
 - Errors: 0
 
-**Estimated Time:** V8 alone has ~1170 source files. On G5 hardware with `-j1`, expect 6-12 hours for full build.
+**Estimated Time:** V8 alone has ~1170 source files. On G5 hardware with `-j2`, expect 4-8 hours for full build.
 
-**All 14 patches applied successfully:**
+**All 15 patches applied successfully:**
 1. ThreadLocalTop struct padding
 2. IsolateData field offsets
 3. Turboshaft operations sizes
 4. OpenSSL linux-ppc/no-asm
 5. libuv Leopard symbols
-6. clock_gettime compatibility
+6. clock_gettime compatibility (V8 abseil)
 7. os/signpost.h stubs
 8. C++20 fallbacks (spaceship, ends_with, consteval)
 9. AI_NUMERICSERV definition (inspector + QUIC)
@@ -418,6 +437,7 @@ Build in progress on G5 Mac (192.168.0.179). V8 compilation proceeding with all 
 12. V8 baseline assembler PPC32 include
 13. V8 macro-assembler SMI assertions
 14. QUIC preferredaddress AI_NUMERICSERV
+15. c-ares clock_gettime Leopard fix
 
 ## Monitoring Commands
 
@@ -438,5 +458,5 @@ grep -c "error:" /tmp/node_build.log
 ps aux | grep "[g]++" | grep -o "[^ ]*\.cc"
 
 # Restart build if needed (do NOT run if already building)
-cd ~/node-ppc/out && nohup make -j1 V=0 > /tmp/node_build.log 2>&1 &
+cd ~/node-ppc/out && nohup make -j2 V=0 > /tmp/node_build.log 2>&1 &
 ```
