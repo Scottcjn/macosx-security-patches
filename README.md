@@ -33,10 +33,10 @@ Security patches for legacy Mac OS X versions that Apple no longer supports.
 | CVE-2011-0182 | Font parsing RCE | Critical | Input validation |
 | CVE-2014-4377 | IOKit privilege escalation | High | Bounds checking |
 | CVE-2014-0160 | Heartbleed (OpenSSL heartbeat over-read) | Critical | Heartbeat payload bounds |
+| CVE-2014-3566 | POODLE (SSL 3.0 padding oracle) | High | Disable SSLv3 + fallback SCSV |
 
 ### Planned for Future Releases
 
-- CVE-2014-3566 (POODLE) - SSL 3.0 padding oracle
 - CVE-2016-0777 - OpenSSH roaming buffer overflow
 - Additional kernel and framework patches
 

@@ -64,6 +64,12 @@ cd ../CVE-2014-0160-Heartbleed
 gcc -dynamiclib -o ../../build/patches/HeartbeatBounds.dylib \
     heartbeat_bounds.c
 
+# 8. Build POODLE SSLv3-disable / fallback-SCSV guard (CVE-2014-3566)
+echo "Building POODLE SSLv3 protection library..."
+cd ../CVE-2014-3566-POODLE
+gcc -dynamiclib -o ../../build/patches/PoodleProtection.dylib \
+    disable_sslv3.c
+
 echo ""
 echo "✅ Build complete!"
 echo ""
