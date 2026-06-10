@@ -51,7 +51,8 @@ chmod 644 /System/Library/LaunchDaemons/com.elya.dns-randomizer.plist
 
 # Add to system profile
 if ! grep -q "TigerPatches" /etc/profile; then
-    echo "export DYLD_INSERT_LIBRARIES=/Library/Security/TigerPatches/TCPSecurity.dylib:/Library/Security/TigerPatches/IOKitSecurity.dylib" >> /etc/profile
+    # Append to existing DYLD_INSERT_LIBRARIES if present, otherwise create it
+    echo 'export DYLD_INSERT_LIBRARIES="${DYLD_INSERT_LIBRARIES}:/Library/Security/TigerPatches/TCPSecurity.dylib:/Library/Security/TigerPatches/IOKitSecurity.dylib"' >> /etc/profile
 fi
 
 echo "Kernel patches installed. Reboot required."
@@ -113,6 +114,9 @@ CVEs Fixed:
 • CVE-2010-0036 - HFS+ Overflow Protection
 • CVE-2011-0182 - Font Parsing Security
 • CVE-2014-4377 - IOKit Bounds Checking
+• CVE-2014-0160 - Heartbleed (OpenSSL heartbeat over-read)
+• CVE-2014-3566 - POODLE (SSL 3.0 padding oracle)
+• CVE-2016-0777 - OpenSSH client roaming info leak
 
 No theater. Real compiled fixes.</string>
     <key>IFPkgDescriptionTitle</key>
