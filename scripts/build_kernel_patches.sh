@@ -58,6 +58,12 @@ echo "Building WebKit security fix..."
 cd ../CVE-2011-3928-WebKit
 # Would patch JavaScriptCore
 
+# 7. Build Heartbleed heartbeat bounds (CVE-2014-0160)
+echo "Building Heartbleed heartbeat bounds library..."
+cd ../CVE-2014-0160-Heartbleed
+gcc -dynamiclib -o ../../build/patches/HeartbeatBounds.dylib \
+    heartbeat_bounds.c
+
 echo ""
 echo "✅ Build complete!"
 echo ""
