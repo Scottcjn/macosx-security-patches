@@ -35,6 +35,9 @@ Security patches for legacy Mac OS X versions that Apple no longer supports.
 | CVE-2014-0160 | Heartbleed (OpenSSL heartbeat over-read) | Critical | Heartbeat payload bounds |
 | CVE-2014-3566 | POODLE (SSL 3.0 padding oracle) | High | Disable SSLv3 + fallback SCSV |
 | CVE-2016-0777 | OpenSSH client roaming info leak | Medium | Disable roaming + resume bounds |
+| CVE-2014-0224 | CCS injection (early ChangeCipherSpec MITM) | High | Handshake state gate |
+| CVE-2016-0800 | DROWN (SSLv2 cross-protocol RSA oracle) | High | Reject SSLv2 at front door |
+| CVE-2022-37434 | zlib inflate() gzip EXTRA over-read | Critical | Bounds-check EXTRA copy |
 
 ### Planned for Future Releases
 

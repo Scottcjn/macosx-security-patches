@@ -34,6 +34,9 @@ Security patches for Mac OS X Leopard that Apple no longer supports.
 | CVE-2014-0160 | Heartbleed (OpenSSL heartbeat over-read) | Critical | Heartbeat payload bounds¹ |
 | CVE-2014-3566 | POODLE (SSL 3.0 padding oracle) | High | Disable SSLv3 + fallback SCSV |
 | CVE-2016-0777 | OpenSSH client roaming info leak | Medium | Disable roaming + resume bounds² |
+| CVE-2014-0224 | CCS injection (early ChangeCipherSpec MITM) | High | Handshake state gate |
+| CVE-2016-0800 | DROWN (SSLv2 cross-protocol RSA oracle) | High | Reject SSLv2 at front door |
+| CVE-2022-37434 | zlib inflate() gzip EXTRA over-read | Critical | Bounds-check EXTRA copy |
 
 **Applicability on Leopard (10.5) — stated honestly:**
 - **POODLE** is directly relevant: Leopard's Secure Transport and system OpenSSL 0.9.8 both speak SSL 3.0, so a forced downgrade is a real threat here.
