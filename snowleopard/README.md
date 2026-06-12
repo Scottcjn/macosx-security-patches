@@ -33,6 +33,9 @@ everything here builds `i386 + x86_64`, deployment target 10.6.
 | CVE-2014-0160 | Heartbleed (OpenSSL heartbeat over-read) | Critical | Heartbeat payload bounds¹ |
 | CVE-2014-3566 | POODLE (SSL 3.0 padding oracle) | High | Disable SSLv3 + fallback SCSV |
 | CVE-2016-0777 | OpenSSH client roaming info leak | Medium | Disable roaming + resume bounds² |
+| CVE-2014-0224 | CCS injection (early ChangeCipherSpec MITM) | High | Handshake state gate |
+| CVE-2016-0800 | DROWN (SSLv2 cross-protocol RSA oracle) | High | Reject SSLv2 at front door |
+| CVE-2022-37434 | zlib inflate() gzip EXTRA over-read | Critical | Bounds-check EXTRA copy |
 
 **Applicability on Snow Leopard (10.6) — stated honestly:**
 - **POODLE** is directly relevant: 10.6's Secure Transport and system OpenSSL 0.9.8 both speak SSL 3.0, so a forced downgrade is a real threat here.
@@ -69,6 +72,6 @@ done
 ## Lineage
 
 Snow Leopard (10.6) is the third OS tier in this suite, after Tiger (10.4) and
-Leopard (10.5). It carries the same 8 CVEs as the Leopard edition. The kernel
+Leopard (10.5). It carries the same 11 CVEs as the Leopard edition. The kernel
 guards reuse the Darwin-generic interpose code; the TLS/SSH guards reuse the
 shared protocol-bounds logic; only the build is Intel-only.
